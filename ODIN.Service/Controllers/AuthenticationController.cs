@@ -19,7 +19,7 @@ namespace ODIN.Service.Controllers
         #endregion
 
         [HttpPost]
-        [Route("Create")]
+        [Route("Register")]
         public async Task<IActionResult> CreateAsync(RegisterDTO user)
         {
             if(ModelState.IsValid)
