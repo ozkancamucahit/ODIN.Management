@@ -51,8 +51,21 @@ namespace ODIN.Service.Controllers
 
             var result = await userAccount.SignInAsync(user);
             return Ok(result);
+        }
+        
+        [HttpPost]
+        [Route("refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync(RefreshToken token)
+        {
 
+            if (token is null) 
+                return BadRequest("model is empty");
 
+            if(!ModelState.IsValid) 
+                return BadRequest(ModelState);
+
+            var result = await userAccount.RefreshTokenAsync(token);
+            return Ok(result);
         }
 
 
