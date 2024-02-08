@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Client.Library.Services.Implementations
 {
-    internal sealed class UserAccountService : IUserAccount
+    public sealed class UserAccountService : IUserAccount
     {
         #region FIELDS
         private readonly GetHttpClient getHttpClient;
@@ -49,9 +49,16 @@ namespace Client.Library.Services.Implementations
 
             return await result.Content.ReadFromJsonAsync<LoginResponse>();
         }
-        public Task<LoginResponse> RefreshTokenAsync(RefreshToken token)
+        public async Task<LoginResponse> RefreshTokenAsync(RefreshToken token)
         {
-            throw new NotImplementedException();
+            using var httpClient = getHttpClient.GetPublicHttpClient();
+
+            var result = await httpClient.PostAsJsonAsync(AuthUrl + "/refresh-token", token);
+
+            if (!result.IsSuccessStatusCode)
+                return new LoginResponse(false, "=> Error Occured :" + result.ReasonPhrase);
+
+            return await result.Content.ReadFromJsonAsync<LoginResponse>();
         }
 
         public async Task<WeatherForecast[]> GetWeatherForecasts()

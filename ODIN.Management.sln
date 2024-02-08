@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODIN.Service", "ODIN.Service\ODIN.Service.csproj", "{FBA9FAE0-CAA0-4CB3-B562-EAEC2C8FE4F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODIN.Service", "ODIN.Service\ODIN.Service.csproj", "{FBA9FAE0-CAA0-4CB3-B562-EAEC2C8FE4F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODIN.Client", "ODIN.Client\ODIN.Client.csproj", "{4663B17F-205A-4F70-B45E-9077753E85CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODIN.Client", "ODIN.Client\ODIN.Client.csproj", "{4663B17F-205A-4F70-B45E-9077753E85CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Library", "Base.Library\Base.Library.csproj", "{1EFFDE84-F520-4688-9282-14BB721B4D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Library", "Base.Library\Base.Library.csproj", "{1EFFDE84-F520-4688-9282-14BB721B4D8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Library", "Client.Library\Client.Library.csproj", "{82CF998F-213E-4393-9A94-031DC3437DEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Library", "Client.Library\Client.Library.csproj", "{82CF998F-213E-4393-9A94-031DC3437DEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Library", "Server.Library\Server.Library.csproj", "{8F7867C7-CA51-4C45-BC34-1BDA01419161}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Library", "Server.Library\Server.Library.csproj", "{8F7867C7-CA51-4C45-BC34-1BDA01419161}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

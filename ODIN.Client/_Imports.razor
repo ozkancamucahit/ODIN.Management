@@ -8,3 +8,14 @@
 @using Microsoft.JSInterop
 @using ODIN.Client
 @using ODIN.Client.Layout
+
+
+@using Base.Library.DTOs
+@using global::Client.Library.Helpers
+@using Microsoft.AspNetCore.Components.Authorization
+@using global::Client.Library.Services.Contracts
+
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IUserAccount accountService
+
+

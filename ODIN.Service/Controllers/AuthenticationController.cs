@@ -1,4 +1,5 @@
 ﻿using Base.Library.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Library.Repositories.Contracts;
@@ -7,6 +8,7 @@ namespace ODIN.Service.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public sealed class AuthenticationController : ControllerBase
     {
         private readonly IUserAccount userAccount;
