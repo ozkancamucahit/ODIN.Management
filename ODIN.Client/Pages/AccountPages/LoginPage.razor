@@ -1,60 +1,109 @@
 ﻿@page "/identity/account/login"
+@using Syncfusion.Blazor.Popups
 @using global::Client.Library.Services.Contracts
 
 @inject IUserAccount userAccount
 @inject NavigationManager navManager
 
-<div class="container-fluid">
+@layout AuthenticationLayout
+@inject SfDialogService DialogService
+@* stiller 3.04 *@
+
+<div class="container">
     <div class="row">
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+        </div>
+
+        <div class="col-lg-4">
             <EditForm Enhance Model="User" OnValidSubmit="HandleLogin">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
+                 <DataAnnotationsValidator />
+                 <div class="card">
 
-                <div class="card">
-                    <div class="card-header"> Fill this form to login</div>
-                    <div class="card-body">
-                        <div class="form-group mt-3">
-                            <label class="form-label">Email</label>
-                            <InputText @bind-Value="User.Email" class="form-control"></InputText>
+                     <div class="card-header text-center fs-5 mb-2">login</div>
+
+                     <div class="container">
+                         <div class="row">
+                             <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                             <div class="col-lg-4 col-md-4 col-sm-4 d-flex justify-content-center">
+                                 <img height="50" width="50" />
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="card-body">
+                         <div class="form-group mt-3">
+                             <label class="form-label">Email</label>
+                             <InputText @bind-Value="User.Email" class="form-control"></InputText>
+                         </div>
+
+                         <div class="form-group mt-3">
+                             <label class="form-label">Password</label>
+                             <input type="password" @bind="User.Password" class="form-control" />
+                         </div>
+
+                         <div class="form-group mt-3">
+
+                             @if (ShowLoadingButton)
+                            {
+                                <ODIN.Client.Pages.OtherPages.ButtonLoadingSpinner>
+
+                                </ODIN.Client.Pages.OtherPages.ButtonLoadingSpinner>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-primary float-end" type="submit">Login</button>
+
+                            }
+
                         </div>
 
-                        <div class="form-group mt-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" @bind="User.Password" class="form-control" />
-                        </div>
+                    </div>
 
-                        <div class="form-group mt-3">
-                            <button class="btn btn-outline-primary float-end" type="submit">Login</button>
-                        </div>
-
+                    <div class="card-footer">
+                        <span class="text-center">
+                            Don't have an account
+                            <a class="btn-link" href="identity/account/register">Sign Up</a>
+                        </span>
+                        <ValidationSummary />
                     </div>
                 </div>
             </EditForm>
         </div>
 
-    </div>
+        <div class="col-lg-4">
+        </div>
 
+    </div>
 </div>
 
+@code {
 
- @code {
+    public bool ShowLoadingButton { get; set; }
 
     LoginDTO User = new();
 
     async Task HandleLogin()
     {
+        ShowLoadingButton = true;
         var result = await userAccount.SignInAsync(User);
 
         if (result.Flag)
         {
             var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider; // comes from imports
-            await customAuthStateProvider.UpdateAuthenticationState(new UserSessionDTO { Token= result.Token, RefreshToken= result.RefreshToken});
+            await customAuthStateProvider.UpdateAuthenticationState(new UserSessionDTO { Token = result.Token, RefreshToken = result.RefreshToken });
             navManager.NavigateTo("/", forceLoad: true);
         }
+        else
+        {
+            await DisplayDialog(result.Message, "Alert");
+        }
+        ShowLoadingButton = false;
+    }
 
-
+    private async Task DisplayDialog(string content, string title)
+    {
+        await DialogService.AlertAsync(content, title);
     }
 
 

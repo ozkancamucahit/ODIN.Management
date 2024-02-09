@@ -1,15 +1,35 @@
 ﻿@page "/identity/account/register"
+@using Syncfusion.Blazor.Popups
+
+
+@layout AuthenticationLayout
+
+@inject SfDialogService DialogService
 
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+        </div>
+
+        <div class="col-lg-4">
             <EditForm Enhance Model="User" OnValidSubmit="HandleRegistration">
                  <DataAnnotationsValidator />
-                 <ValidationSummary />
 
-                 <div class="card">
-                     <div class="card-header">Fill this form to register</div>
+                 <div class="card bg-dark d-flex justify-content-center text-light">
+
+                     <div class="card-header text-center fs-5">Register an acoount</div>
+
+                     <div class="container">
+                         <div class="row">
+                             <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                             <div class="col-lg-4 col-md-4 col-sm-4 d-flex justify-content-center">
+                                 <img height="50" width="50" />
+                             </div>
+                             <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                         </div>
+                     </div>
+
                      <div class="card-body">
                          <div class="form-group">
                              <label class="form-label">FullName</label>
@@ -24,45 +44,76 @@
 
                          <div class="form-group mt-3">
                              <label class="form-label">Password</label>
-                             <input type="password" @bind="User.Password" class="form-control"/>
+                             <input type="password" @bind="User.Password" class="form-control" />
                          </div>
 
                          <div class="form-group mt-3">
                              <label class="form-label">Confirm Password</label>
-                             <input type="password" @bind="User.ConfirmPassword" class="form-control"/>
+                             <input type="password" @bind="User.ConfirmPassword" class="form-control" />
                          </div>
 
                          <div class="form-group mt-3">
-                             <button class="btn btn-outline-primary float-end" type="submit">Register</button>
-                         </div>
-                     </div>
-                 </div>
-             </EditForm>
-         </div>
-     </div>
- </div>
+
+                             @if (ShowLoadingButton)
+                            {
+                                <ODIN.Client.Pages.OtherPages.ButtonLoadingSpinner>
+
+                                </ODIN.Client.Pages.OtherPages.ButtonLoadingSpinner>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-primary float-end" type="submit">Register</button>
+
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="text-center">
+                            Have account already?
+                            <a class="btn-link" href="identity/account/login">Sign In</a>
+                        </span>
+                        <ValidationSummary />
+                    </div>
+
+                </div>
+            </EditForm>
+        </div>
+
+        <div class="col-lg-4">
+        </div>
+    </div>
+</div>
 
 
 
- @code {
+@code {
     RegisterDTO User = new();
+
+    public bool ShowLoadingButton { get; set; }
 
     async Task HandleRegistration()
     {
+        ShowLoadingButton = true;
         var result = await accountService.CreateAsync(User);
 
         if (result.Flag)
         {
+            await DisplayDialog(result.Message, "Success");
+
             User = new();
         }
         else
         {
-            
+            await DisplayDialog(result.Message, "Alert");
         }
-
-
+        ShowLoadingButton = false;
     }
 
-
+    private async Task DisplayDialog(string content, string title)
+    {
+        await DialogService.AlertAsync(content, title);
+    }
 
 }

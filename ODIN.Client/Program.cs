@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ODIN.Client;
+using Syncfusion.Blazor;
+using Syncfusion.Blazor.Popups;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -24,6 +26,8 @@ builder.Services
     .AddScoped<GetHttpClient>()
     .AddScoped<LocalStorageService>()
     .AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>()
-    .AddScoped<IUserAccount, UserAccountService>();
+    .AddScoped<IUserAccount, UserAccountService>()
+    .AddScoped<SfDialogService>()
+    .AddSyncfusionBlazor();
 
 await builder.Build().RunAsync();
