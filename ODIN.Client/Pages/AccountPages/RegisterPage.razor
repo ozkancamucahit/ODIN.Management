@@ -5,7 +5,7 @@
 @layout AuthenticationLayout
 
 @inject SfDialogService DialogService
-
+@inject NavigationManager navManager
 
 <div class="container">
     <div class="row">
@@ -93,6 +93,15 @@
 
     public bool ShowLoadingButton { get; set; }
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckUserAuthentication();
+    }
+
+
     async Task HandleRegistration()
     {
         ShowLoadingButton = true;
@@ -114,6 +123,21 @@
     private async Task DisplayDialog(string content, string title)
     {
         await DialogService.AlertAsync(content, title);
+    }
+
+    private async Task CheckUserAuthentication()
+    {
+        var user = (await AuthenticationState).User;
+
+        if (user.Identity is null)
+        {
+            return;
+        }
+
+        bool isUserAuthenticated = user.Identity!.IsAuthenticated;
+
+        if (isUserAuthenticated)
+            navManager.NavigateTo("home/dashboard");
     }
 
 }

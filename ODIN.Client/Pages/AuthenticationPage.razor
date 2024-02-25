@@ -1,7 +1,30 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@inject NavigationManager NavManager
 
-Welcome to your new app.
+@code{
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await AuthenticationState).User;
+
+        if(user.Identity is null || !user.Identity.IsAuthenticated)
+            NavManager.NavigateTo("/identity/account/login");
+
+        else if (user.Identity.IsAuthenticated)
+        {
+            NavManager.NavigateTo("home/dashboard");
+        }
+        else
+        {
+            NavManager.NavigateTo("/identity/account/login");
+        }
+
+
+    }
+
+
+}
